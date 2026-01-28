@@ -1,2 +1,2 @@
 # NotSoCivilised
-A simple war/civilisation game
+A simple war/civilisation game. Might get abandonet.
