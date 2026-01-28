@@ -37,8 +37,9 @@ add_executable(
         NotSoCivilised
         "src/Main.cpp"
         "src/Logger.cpp"
-        "src/Renderer.cpp"
-)
+        "src/Renderer/Renderer.cpp"
+  "src/Renderer/Shapes.cpp")
+target_include_directories(NotSoCivilised PRIVATE "src/")
 target_compile_features(NotSoCivilised PRIVATE cxx_std_20)
 target_link_libraries(
     NotSoCivilised 
