@@ -32,14 +32,42 @@ Renderer::~Renderer() {
 	Logger::Info("Renderer has been destroyed");
 }
 
-void Renderer::DrawTriangle(int ax, int ay, int bx, int by, int cx, int cy, SDL_Color color) { }
-
-void Renderer::DrawRectangle(int x, int y, int width, int height, SDL_Color color) { 
-	SDL_FRect* rectangle = {
-		
-	};
+void Renderer::Update() {
+	SDL_SetRenderTarget(m_renderer, nullptr);
+	SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+	SDL_RenderClear(m_renderer);
+	SDL_RenderTexture(m_renderer, m_canvas, nullptr, nullptr);
+	SDL_RenderPresent(m_renderer);
+	SDL_SetRenderTarget(m_renderer, m_canvas);
 }
 
-void Renderer::DrawText(int x, int y, const std::string_view& text, SDL_Color color) { }
+void Renderer::DrawTriangle(int ax, int ay, int bx, int by, int cx, int cy, SDL_Color color) {
+	auto toFColor = [](SDL_Color color) {
+		return SDL_FColor{ color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f };
+	};
+	SDL_Vertex verticies[] = {
+		{ { static_cast<float>(ax), static_cast<float>(ay) }, toFColor(color) },
+		{ { static_cast<float>(bx), static_cast<float>(by) }, toFColor(color) },
+		{ { static_cast<float>(cx), static_cast<float>(cy) }, toFColor(color) },
+	};
+	SDL_RenderGeometry(m_renderer, nullptr, verticies, 3, nullptr, 0);
+}
 
-void Renderer::DrawImage(int x, int y, const std::string_view& name) { }
+void Renderer::DrawRectangle(int x, int y, int width, int height, SDL_Color color) { 
+	SDL_FRect rectangle = {
+		static_cast<float>(x),
+		static_cast<float>(y),
+		static_cast<float>(width),
+		static_cast<float>(height)
+	};
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderFillRect(m_renderer, &rectangle);
+}
+
+void Renderer::DrawText(int x, int y, const std::string_view& text, SDL_Color color) {
+	
+}
+
+void Renderer::DrawImage(int x, int y, const std::string_view& name) { 
+
+}
